@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>蜻蜓聊天</title>
+    <style>
+        body {
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            animation: fade-in 4s forwards;
+        }
+
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .chat-text {
+            font-size: 48px;
+            font-family: "微软雅黑", Arial, sans-serif;
+            color: black;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .footer {
+            position: fixed;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 16px;
+            font-family: "微软雅黑", Arial, sans-serif;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-text">蜻蜓聊天</div>
+        <div class="loader"></div>
+    </div>
+
+    <div class="footer">
+        ©2020-2023蓝蜻蜓工作室
+    </div>
+
+    <script>
+        function generateRandomPosition() {
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var x = Math.random() * (width - 200);
+            var y = Math.random() * (height - 50);
+            return { x: x, y: y };
+        }
+
+        function generateRandomDirection() {
+            var angles = [0, 45, 90, 135, 180, 225, 270, 315];
+            var angle = angles[Math.floor(Math.random() * angles.length)];
+            return angle * (Math.PI / 180);
+        }
+
+        function createMovingText(text) {
+            var position = generateRandomPosition();
+            var direction = generateRandomDirection();
+            var textElement = document.createElement("div");
+            textElement.style.position = "absolute";
+            textElement.style.left = position.x + "px";
+            textElement.style.top = position.y + "px";
+            textElement.style.fontFamily = "微软雅黑";
+            textElement.style.fontSize = "24px";
+            textElement.style.color = "black";
+            textElement.textContent = text;
+            document.body.appendChild(textElement);
+            animateMovingText(textElement, direction);
+        }
+
+        function animateMovingText(element, direction) {
+            var speed = 0.5; // Adjust the speed as needed
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var x = element.offsetLeft;
+            var y = element.offsetTop;
+            var dx = Math.cos(direction) * speed;
+            var dy = Math.sin(direction) * speed;
+
+            function step() {
+                x += dx;
+                y += dy;
+
+                if (x < 0 || x + element.offsetWidth > width) {
+                    dx = -dx;
+                }
+
+                if (y < 0 || y + element.offsetHeight > height) {
+                    dy = -dy;
+                }
+
+                element.style.left = x + "px";
+                element.style.top = y + "px";
+                window.requestAnimationFrame(step);
+            }
+
+            window.requestAnimationFrame(step);
+        }
+
+        function easeInOutQuad(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        setTimeout(function() {
+            window.location.href = "https://app.gitter.im/";
+        }, 4000);
+
+        createMovingText("HTML");
+        createMovingText("CSS");
+        createMovingText("C#");
+        createMovingText("Python");
+        createMovingText("Java");
+        createMovingText("Javascript");
+        createMovingText("HTML");
+        createMovingText("CSS");
+        createMovingText("C#");
+        createMovingText("Python");
+        createMovingText("Java");
+        createMovingText("Javascript");
+    </script>
+</body>
+</html>
